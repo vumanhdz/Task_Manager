@@ -1,0 +1,110 @@
+openapi: 3.0.3
+info:
+  title: Task Manager API
+  description: |-
+    Simple API for managing tasks
+    - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
+    - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8081 # Replace with actual server URL if deployed
+paths:
+  "/":
+    get:
+      summary: Get all tasks
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+        400: # Added potential error handling
+          description: Bad request
+  "/create":
+    post:
+      summary: Create a new task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        400: # Added potential error handling
+          description: Bad request (e.g., invalid data)
+  "/update/{id}":
+    put:
+      summary: Update a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        400: # Added potential error handling
+          description: Bad request (e.g., invalid data)
+        404:
+          description: Task not found
+  "/Home/{id}":
+    delete:
+      summary: Delete a task
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+        404:
+          description: Task not found
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date # Assuming date format is YYYY-MM-DD or a compatible format
+        project:
+          type: string
+        task:
+          type: string
+        description:
+          type: string
+        time: # Consider refining time format based on your application's needs
+          type: string # Or string (e.g., HH:MM) or another appropriate format
