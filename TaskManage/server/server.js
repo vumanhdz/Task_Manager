@@ -1,11 +1,17 @@
 const express = require("express");
 // const morgan = require('morgan')
 const cors = require("cors");
+const dotenv = require("dotenv")
+const cookieParser = require("cookie-parser")
 const mysql = require("mysql");
 
+// dotenv.config()
 const app = express();
+
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser())
+
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -13,6 +19,7 @@ const db = mysql.createConnection({
     password: "",
     database: "taskmanager"
 })
+
 
 app.get("/", (req, res) => {
     const sql = "SELECT * FROM task";
@@ -62,7 +69,7 @@ app.delete('/Home/:id', (req, res) => {
     })
 })
 
-const port = 8081;
+const port = 8000;
 app.listen(port, () => {
-    console.log("das");
+    console.log("Server is running");
 })
